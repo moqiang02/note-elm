@@ -33,8 +33,19 @@ const router = new VueRouter({
     routes: routes
 });
 
-new Vue(Vue.util.extend({ router }, App)).$mount('#app');
+// new Vue(Vue.util.extend({ router }, App)).$mount('#app');
 
-/*const app = new Vue({
-    el: '#app'
-});*/
+let path = window.location.pathname.substr(1 ,9);
+
+if(path == 'dashboard'){
+    const app = new Vue({
+        el: '#app',
+        router,
+        render: creatElment => creatElment(App)
+    });
+}else{
+    const app = new Vue({
+        el: '#app'
+    });
+}
+
