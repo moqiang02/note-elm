@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
+Route::group(['prefix' => 'dashboard'], function () {
+    Route::get('{path?}', 'DashboardController@dashboard')->where('path', '[\/\w\.-]*');
+});
 
-Route::get('/home', 'HomeController@index')->name('home');
