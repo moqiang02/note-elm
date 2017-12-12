@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
 
 class Handler extends ExceptionHandler
 {
@@ -48,6 +49,22 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if( $exception instanceof AuthenticationException && $request->expectsJson()){
+            $response = ['code' => '401', 'message' => '11pass invalid token'];
+            return response()->json($response,402);
+        }
+
         return parent::render($request, $exception);
     }
+
+//    protected function unauthenticated($request, AuthenticationException $exception)
+//    {
+//        if ($request->expectsJson()) {
+//
+//            /** return response()->json(['error' => 'Unauthenticated.'], 401); */
+//            $response = ['code' => '401', 'message' => '11pass invalid token'];
+//            return response()->json($response,401);
+//        }
+//    }
+
 }

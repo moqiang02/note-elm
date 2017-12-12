@@ -1,22 +1,38 @@
+import App from './App.vue'
 import Dashboard from './views/Dashboard.vue'
 
 export default [
     {
         path: '/dashboard',
         component: Dashboard,
-        //beforeEnter: requireAuth,
+        beforeEnter: requireAuth,
         children: [
             {
                 path: '/',
                 redirect: '/dashboard/home'
             },
             {
-                path:'home',
-                component:require('./views/dashboard/Home.vue')
+                path: 'login',
+                component: require('./views/dashboard/Login.vue')
             },
             {
-                path:'articles',
-                component:require('./views/dashboard/Articles.vue')
+                path: 'home',
+                component: require('./views/dashboard/Home.vue')
+            },
+            {
+                path: 'articles',
+                component: App,
+                children: [
+                    {
+                        path: '/',
+                        name: 'articles',
+                        component: require('./views/dashboard/article/Articles.vue')
+                    },
+                    {
+                        path: 'edit/:id',
+                        component: require('./views/dashboard/article/Edit.vue')
+                    }
+                ]
             }
         ]
 
@@ -24,9 +40,10 @@ export default [
 ]
 
 function requireAuth(to, from, next) {
-    if (window.User) {
-        return next()
+    console.log('requireAuth', to, from)
+    if (!window.User && to.fullPath != '/dashboard/login') {
+        return next('/dashboard/login')
     } else {
-        return next('/login')
+        return next()
     }
 }

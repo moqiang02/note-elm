@@ -23,6 +23,9 @@ import 'element-ui/lib/theme-default/index.css'
 import routes from './routes.js';
 import App from './App.vue'
 
+import axios from 'axios'
+Vue.prototype.$http = axios
+
 Vue.use(VueRouter);
 Vue.use(ElementUI);
 
@@ -36,6 +39,7 @@ const router = new VueRouter({
 // new Vue(Vue.util.extend({ router }, App)).$mount('#app');
 
 let path = window.location.pathname.substr(1 ,9);
+console.log(path)
 
 if(path == 'dashboard'){
     const app = new Vue({
@@ -48,4 +52,6 @@ if(path == 'dashboard'){
         el: '#app'
     });
 }
+
+
 
